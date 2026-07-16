@@ -8,9 +8,11 @@
 *.tif
 *.tiff
 
-# Keep data folders private by default because they may contain patient-level IDs.
-on-site/
-pre-built/
+# Include anonymized model-comparison CSV files.
+!on-site/
+!on-site/*.csv
+!pre-built/
+!pre-built/*.csv
 
 # Python cache files
 __pycache__/

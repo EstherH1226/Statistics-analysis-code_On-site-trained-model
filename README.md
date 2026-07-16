@@ -21,13 +21,15 @@ The script expects this folder structure:
 +-- onsite_vs_prebuilt_wilcoxon_analysis.py
 ```
 
-Each CSV file should contain a `patient_id` column and one or more common organ columns, such as:
+Each CSV file should contain an anonymized `patient_id` column and one or more common organ columns, such as:
 
 ```text
 Heart, Lung_L, Lung_R, patient_id
 ```
 
 Only organ columns that exist in both the `on-site` and `pre-built` files are analyzed. Paired comparisons are matched by `patient_id` when possible. If no `patient_id` values match and the two files have the same number of rows, the script falls back to row-order pairing.
+
+The anonymized model-comparison CSV files in `on-site/` and `pre-built/` are included in this repository.
 
 ## Output
 
@@ -87,7 +89,7 @@ kappa_analysis_results.json
 kappa_analysis_results.xlsx
 ```
 
-These result/data files are excluded from Git by default because they may contain patient-level identifiers.
+These physician blinded test result/data files are excluded from Git by default because they may contain patient-level identifiers.
 
 The packaged folders can be run independently:
 
