@@ -1,0 +1,22 @@
+# Local data files and generated analysis outputs
+*.csv
+*.xlsx
+*.xls
+*.json
+*.png
+*.pdf
+*.tif
+*.tiff
+
+# Keep data folders private by default because they may contain patient-level IDs.
+on-site/
+pre-built/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Local environment files
+.venv/
+venv/
+.env
