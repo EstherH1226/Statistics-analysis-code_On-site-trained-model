@@ -69,6 +69,7 @@ Other included scripts support related statistical analyses and figure generatio
 
 - `physician blinded test/kappa_workbook_package/kappa_analysis.py`
 - `physician blinded test/kappa_workbook_package/make_kappa_workbook.py`
+- `physician blinded test/kappa_workbook_package/draw_kappa_figure.py`
 - `physician blinded test/mcnemar_analysis_package/mcnemar_patient_level_analysis.py`
 
 The kappa workbook includes PABAK, calculated as `2 x observed agreement - 1`.
@@ -99,6 +100,7 @@ The packaged folders can be run independently:
 cd "physician blinded test\kappa_workbook_package"
 python kappa_analysis.py
 python make_kappa_workbook.py
+python draw_kappa_figure.py
 
 cd "..\mcnemar_analysis_package"
 python mcnemar_patient_level_analysis.py
