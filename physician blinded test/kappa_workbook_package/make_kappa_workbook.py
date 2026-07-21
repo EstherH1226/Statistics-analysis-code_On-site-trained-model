@@ -85,6 +85,7 @@ def main():
             r4(ci["pair_mean"][0]),
             r4(ci["pair_mean"][1]),
             pct(model["fleiss"]["mean_agreement"]),
+            r4(model["fleiss"]["pabak"]),
             pct(model["complete_agreement_rate"]),
             pct(model["rater_acceptance_rate"]["RO"]),
             pct(model["rater_acceptance_rate"]["MP"]),
@@ -93,7 +94,7 @@ def main():
     headers = [
         "Model", "Patients", "Items", "Fleiss kappa", "CI low", "CI high",
         "Mean pairwise kappa", "CI low", "CI high", "Observed agreement",
-        "3-rater complete agreement", "RO acceptance", "MP acceptance", "DR acceptance",
+        "PABAK", "3-rater complete agreement", "RO acceptance", "MP acceptance", "DR acceptance",
     ]
     write_table(ws, 5, 1, headers, summary_rows)
 
@@ -146,13 +147,13 @@ def main():
             ci = data["bootstrap_ci"][model_name][pair]
             pair_rows.append([
                 model_name, pair, p["n"], r4(p["kappa"]), r4(ci[0]), r4(ci[1]),
-                pct(p["po"]), pct(p["pe"]), p["n00"], p["n01"], p["n10"], p["n11"],
+                pct(p["po"]), r4(p["pabak"]), pct(p["pe"]), p["n00"], p["n01"], p["n10"], p["n11"],
             ])
     write_table(
         ws2,
         1,
         1,
-        ["Model", "Rater pair", "N", "Cohen kappa", "CI low", "CI high", "Observed agreement", "Expected agreement", "00", "01", "10", "11"],
+        ["Model", "Rater pair", "N", "Cohen kappa", "CI low", "CI high", "Observed agreement", "PABAK", "Expected agreement", "00", "01", "10", "11"],
         pair_rows,
     )
 
@@ -167,6 +168,7 @@ def main():
             q["n_items"],
             r4(q["Fleiss kappa"]),
             pct(q["Observed agreement"]),
+            r4(q["PABAK"]),
             pct(q["Acceptance all ratings"]),
             r4(q["RO-MP kappa"]),
             r4(q["RO-DR kappa"]),
@@ -176,7 +178,7 @@ def main():
         ws3,
         1,
         1,
-        ["Model", "Question", "N", "Fleiss kappa", "Observed agreement", "Acceptance all ratings", "RO-MP", "RO-DR", "MP-DR"],
+        ["Model", "Question", "N", "Fleiss kappa", "Observed agreement", "PABAK", "Acceptance all ratings", "RO-MP", "RO-DR", "MP-DR"],
         q_rows,
     )
 
@@ -187,6 +189,7 @@ def main():
         ["Unit of analysis", "Each patient-question judgment was treated as one binary item. There are 30 patients and 17 questions per model, so N=510 items per model."],
         ["Fleiss kappa", "Used for overall agreement among RO, MP, and DR."],
         ["Cohen kappa", "Used for each rater pair: RO-MP, RO-DR, MP-DR."],
+        ["PABAK", "Prevalence-adjusted bias-adjusted kappa, calculated as 2 x observed agreement - 1."],
         ["Bootstrap CI", "95% percentile intervals from patient-cluster bootstrap resampling, preserving all 17 questions within each sampled patient."],
         ["Difference", "On-site trained minus Pre-built. Negative values mean lower chance-corrected agreement for the on-site trained model."],
     ]

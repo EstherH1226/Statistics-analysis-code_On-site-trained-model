@@ -36,6 +36,7 @@ def cohen_kappa(a, b):
     n10 = int(np.sum((a == 1) & (b == 0)))
     n11 = int(np.sum((a == 1) & (b == 1)))
     po = (n00 + n11) / n
+    pabak = 2 * po - 1
     p_a0, p_a1 = np.mean(a == 0), np.mean(a == 1)
     p_b0, p_b1 = np.mean(b == 0), np.mean(b == 1)
     pe = p_a0 * p_b0 + p_a1 * p_b1
@@ -43,6 +44,7 @@ def cohen_kappa(a, b):
     return {
         "n": int(n),
         "po": float(po),
+        "pabak": float(pabak),
         "pe": float(pe),
         "kappa": float(kappa),
         "n00": n00,
@@ -62,6 +64,7 @@ def fleiss_kappa(rows):
     counts1 = np.sum(vals == 1, axis=1)
     p_i = (counts0 * (counts0 - 1) + counts1 * (counts1 - 1)) / (n_raters * (n_raters - 1))
     mean_agreement = float(np.mean(p_i))
+    pabak = 2 * mean_agreement - 1
     p0 = float(np.sum(counts0) / (n_items * n_raters))
     p1 = 1.0 - p0
     chance = p0 * p0 + p1 * p1
@@ -70,6 +73,7 @@ def fleiss_kappa(rows):
         "n_items": int(n_items),
         "kappa": float(kappa),
         "mean_agreement": mean_agreement,
+        "pabak": float(pabak),
         "chance_agreement": float(chance),
         "p_acceptance_all_ratings": p1,
     }
@@ -137,6 +141,7 @@ def question_metrics(df):
                 "n_items": int(len(sub)),
                 "Fleiss kappa": fk["kappa"],
                 "Observed agreement": fk["mean_agreement"],
+                "PABAK": fk["pabak"],
                 "Acceptance all ratings": fk["p_acceptance_all_ratings"],
             }
             for a, b in [("RO", "MP"), ("RO", "DR"), ("MP", "DR")]:

@@ -19,3 +19,5 @@ python make_kappa_workbook.py
 
 - `kappa_analysis_results.json`
 - `kappa_analysis_results.xlsx`
+
+The workbook includes PABAK, calculated as `2 x observed agreement - 1`.
