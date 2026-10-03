@@ -1,39 +1,35 @@
-# Kappa Workbook Package
+# Inter-observer agreement and S2 Table
 
-This folder contains the files needed to generate the kappa analysis workbook.
+From this directory:
 
-## Files
-
-- `Raw data_McNemar’s test.xlsx`: input data
-- `kappa_analysis.py`: creates `kappa_analysis_results.json`
-- `make_kappa_workbook.py`: creates `kappa_analysis_results.xlsx` from the JSON file
-- `draw_kappa_figure.py`: creates kappa figure files from the JSON file and raw Excel file
-
-## Run Order
-
-```powershell
-python kappa_analysis.py
-python make_kappa_workbook.py
-python draw_kappa_figure.py
+```sh
+python kappa_analysis.py --input "01-S1_Table.xlsx" --output kappa_analysis_results.json
+python update_s2_table.py --results kappa_analysis_results.json --template "01-S2_Table.xlsx" --output "S2_Table_corrected.xlsx"
+python -m unittest test_unanimous_acceptance.py
 ```
 
-## Outputs
+`update_s2_table.py` preserves the supplied manuscript table layout and changes
+only its 34 unanimous acceptance values and S3-to-S2 title number. It does not
+replace the existing overall summary or restyle the table.
 
-- `kappa_analysis_results.json`
-- `kappa_analysis_results.xlsx`
-- `kappa_agreement_acceptance_figure.png`
-- `kappa_agreement_acceptance_figure.pdf`
-- `kappa_model_summary.png`
-- `kappa_model_summary.pdf`
-- `kappa_model_summary.tiff`
-- `kappa_panel_A_fleiss_kappa.png`
-- `kappa_panel_A_fleiss_kappa.pdf`
-- `kappa_panel_A_fleiss_kappa.tiff`
-- `kappa_panel_B_observed_agreement.png`
-- `kappa_panel_B_observed_agreement.pdf`
-- `kappa_panel_B_observed_agreement.tiff`
-- `kappa_panel_C_all_3_accepted.png`
-- `kappa_panel_C_all_3_accepted.pdf`
-- `kappa_panel_C_all_3_accepted.tiff`
+Definitions:
+- Overall acceptance: acceptable individual ratings / 90 per sub-question.
+- Unanimous acceptance: patients accepted by all three observers / 30.
+- Complete agreement: all three accept OR all three reject / 30.
+- Observed agreement: mean of the three observer-pair observed agreements.
 
-The workbook includes PABAK, calculated as `2 x observed agreement - 1`.
+The analysis JSON and `agreement_by_question.csv` retain these separate fields.
+The original Figure 3 unanimous acceptance calculation was correct. The
+repository figure script now reads the same JSON field used by the table;
+its original rendering functions and layout are retained. Run it with
+`python draw_kappa_figure.py` after generating the default JSON in this folder.
+No patient workbook is needed by the figure script.
+
+`make_kappa_workbook.py` remains available for the existing analysis workbook
+layout. Its question-level column now reports unanimous acceptance. This
+analysis workbook is distinct from the manuscript S2 template.
+
+The summary has 510 patient-question combinations (1530 individual ratings)
+per model. Bootstrap confidence intervals retain patient-cluster resampling,
+5000 draws, seed 20260505. Between-model acceptance testing is handled by the
+separate GEE package and is not part of this correction.

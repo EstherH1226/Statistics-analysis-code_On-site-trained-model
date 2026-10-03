@@ -1,4 +1,5 @@
 import json
+import argparse
 import math
 from pathlib import Path
 
@@ -87,8 +88,8 @@ def ci(values):
     return [float(np.percentile(values, 2.5)), float(np.percentile(values, 97.5))]
 
 
-def build_long():
-    raw = pd.read_excel(INPUT, sheet_name=0, header=None)
+def build_long(input_path=INPUT):
+    raw = pd.read_excel(input_path, sheet_name=0, header=None)
     data_rows = raw[
         (raw.iloc[:, MODEL_COL] == "Pre-built model")
         | (raw.iloc[:, MODEL_COL] == "On-site trained model")
@@ -104,9 +105,20 @@ def build_long():
             }
             for rater, start in BLOCK_STARTS.items():
                 value = row.iloc[start + q_idx]
-                rec[rater] = int(float(value) > 0) if not pd.isna(value) else None
+                if pd.isna(value) or not any(np.isclose(float(value), v) for v in (0, 0.2 if q_idx < 5 else 0.25, 1)):
+                    raise ValueError(f"Missing or invalid rating: {rec['Patient ID']}, {rec['Model']}, {question}, {rater}")
+                rec[rater] = int(float(value) > 0)
             records.append(rec)
-    return pd.DataFrame(records)
+    df = pd.DataFrame(records)
+    if df.empty or df.duplicated(['Patient ID', 'Model', 'Question']).any():
+        raise ValueError('Empty data or duplicate patient/model/question records')
+    expected_models = {'Pre-built model', 'On-site trained model'}
+    if set(df['Model']) != expected_models:
+        raise ValueError('Both model conditions are required')
+    patient_sets = [set(s['Patient ID']) for _, s in df.groupby('Model')]
+    if patient_sets[0] != patient_sets[1] or len(patient_sets[0]) != 30:
+        raise ValueError('Expected the same 30 patients under both models')
+    return df
 
 
 def model_metrics(df):
@@ -143,6 +155,9 @@ def question_metrics(df):
                 "Observed agreement": fk["mean_agreement"],
                 "PABAK": fk["pabak"],
                 "Acceptance all ratings": fk["p_acceptance_all_ratings"],
+                "Unanimous acceptance n": int(np.all(sub[RATERS].to_numpy() == 1, axis=1).sum()),
+                "Unanimous acceptance": float(np.all(sub[RATERS].to_numpy() == 1, axis=1).mean()),
+                "Complete agreement": float(np.all(sub[RATERS].to_numpy() == sub[RATERS].to_numpy()[:, [0]], axis=1).mean()),
             }
             for a, b in [("RO", "MP"), ("RO", "DR"), ("MP", "DR")]:
                 entry[f"{a}-{b} kappa"] = cohen_kappa(sub[a], sub[b])["kappa"]
@@ -186,7 +201,11 @@ def bootstrap(df, n_boot=5000, seed=20260505):
 
 
 def main():
-    long_df = build_long()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input', type=Path, default=INPUT)
+    parser.add_argument('--output', type=Path, default=OUTPUT_JSON)
+    args = parser.parse_args()
+    long_df = build_long(args.input)
     metrics = model_metrics(long_df)
     boot = bootstrap(long_df)
 
@@ -211,7 +230,13 @@ def main():
         }
 
     result = {
-        "input": str(INPUT),
+        "input": args.input.name,
+        "definitions": {
+            "Acceptance all ratings": "Acceptable individual ratings / all individual ratings (90 per sub-question).",
+            "Unanimous acceptance": "Patients accepted by all three observers / patients (30 per sub-question).",
+            "Complete agreement": "All three accept OR all three reject; distinct from unanimous acceptance.",
+            "n_items": "Patient-question combinations: 30 patients x 17 sub-questions = 510 per model; 1530 individual ratings."
+        },
         "n_bootstrap": boot["n_boot"],
         "bootstrap_seed": boot["seed"],
         "models": metrics,
@@ -220,8 +245,10 @@ def main():
         "question_metrics": question_metrics(long_df),
         "long_data_preview": long_df.head(12).to_dict(orient="records"),
     }
-    OUTPUT_JSON.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(str(OUTPUT_JSON))
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    pd.DataFrame(result['question_metrics']).to_csv(args.output.with_name('agreement_by_question.csv'), index=False)
+    print(str(args.output))
 
 
 if __name__ == "__main__":

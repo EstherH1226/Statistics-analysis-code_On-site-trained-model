@@ -412,7 +412,6 @@ def save_response_pattern_panel(output_png, output_pdf, output_tiff, patterns):
 
 def main():
     result = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
-    long_df = build_long()
 
     q_metrics = pd.DataFrame(result["question_metrics"])
     kappas = {m: {} for m in MODELS}
@@ -421,11 +420,8 @@ def main():
     for _, row in q_metrics.iterrows():
         kappas[row["Model"]][row["Question"]] = row["Fleiss kappa"]
         observed[row["Model"]][row["Question"]] = row["Observed agreement"]
-    for model in MODELS:
-        for q in QUESTIONS:
-            sub = long_df[(long_df["Model"] == model) & (long_df["Question"] == q)]
-            vals = sub[RATERS]
-            accept_all[model][q] = float(((vals == 1).all(axis=1)).mean())
+    for _, row in q_metrics.iterrows():
+        accept_all[row["Model"]][row["Question"]] = row["Unanimous acceptance"]
 
     W, H = 1800, 1450
     img = Image.new("RGB", (W, H), (246, 248, 250))
