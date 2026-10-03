@@ -6,7 +6,6 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 BASE = Path(__file__).resolve().parent
-INPUT_XLSX = BASE / "Raw data_McNemar’s test.xlsx"
 RESULT_JSON = BASE / "kappa_analysis_results.json"
 OUTPUT_PNG = BASE / "kappa_agreement_acceptance_figure.png"
 OUTPUT_PDF = BASE / "kappa_agreement_acceptance_figure.pdf"
@@ -150,26 +149,6 @@ def wrapped_text(draw, xy, text, fnt, fill, max_width, line_gap=5):
         draw.text((x, y), line, fill=fill, font=fnt)
         y += fnt.size + line_gap
     return y
-
-
-def build_long():
-    raw = pd.read_excel(INPUT_XLSX, sheet_name=0, header=None)
-    data_rows = raw[
-        (raw.iloc[:, MODEL_COL] == "Pre-built model")
-        | (raw.iloc[:, MODEL_COL] == "On-site trained model")
-    ]
-    records = []
-    for _, row in data_rows.iterrows():
-        for q_idx, question in enumerate(QUESTIONS):
-            rec = {
-                "Patient ID": str(row.iloc[PATIENT_ID_COL]),
-                "Model": str(row.iloc[MODEL_COL]),
-                "Question": question,
-            }
-            for rater, start in BLOCK_STARTS.items():
-                rec[rater] = int(float(row.iloc[start + q_idx]) > 0)
-            records.append(rec)
-    return pd.DataFrame(records)
 
 
 def draw_heatmap(draw, x, y, title, data, color_fn, value_fmt, legend_labels):

@@ -5,7 +5,6 @@ From this directory:
 ```sh
 python kappa_analysis.py --input "01-S1_Table.xlsx" --output kappa_analysis_results.json
 python update_s2_table.py --results kappa_analysis_results.json --template "01-S2_Table.xlsx" --output "S2_Table_corrected.xlsx"
-python -m unittest test_unanimous_acceptance.py
 ```
 
 `update_s2_table.py` preserves the supplied manuscript table layout and changes

@@ -4,7 +4,6 @@ From the repository root:
 
 ```sh
 python "physician blinded test/gee_analysis_package/gee_acceptance_analysis.py" --input "01-S1_Table.xlsx" --output-dir gee_results
-python "physician blinded test/gee_analysis_package/verify_manuscript_results.py" --input "01-S1_Table.xlsx"
 ```
 
 The input is the S1 raw-data workbook: patient identifier in column G, model
@@ -53,10 +52,6 @@ with 30 clusters remains approximate despite the small-sample correction.
   intervals, unadjusted and Holm-adjusted p-values, and diagnostics.
 - `Acceptance_by_observer.csv`: descriptive acceptance rates for RO, MP, DR.
 - `analysis_metadata.json`: the analysis specification.
-
-The verification script compares all 17 results against the rounded Table 3
-values supplied for the revised manuscript. Aggregate reference outputs are
-in `validation/`; raw patient ratings are not included in this commit.
 
 Reference for the covariance correction: Mancl LA, DeRouen TA. A covariance
 estimator for GEE with improved small-sample properties. Biometrics.
