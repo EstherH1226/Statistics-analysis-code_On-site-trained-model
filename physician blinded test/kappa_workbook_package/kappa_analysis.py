@@ -8,7 +8,7 @@ import pandas as pd
 
 
 BASE_DIR = Path(__file__).resolve().parent
-INPUT = BASE_DIR / "Raw data_McNemar’s test.xlsx"
+INPUT = BASE_DIR / "01-S1_Table.xlsx"
 OUTPUT_JSON = INPUT.with_name("kappa_analysis_results.json")
 
 RATERS = ["RO", "MP", "DR"]

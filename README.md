@@ -63,32 +63,47 @@ python onsite_vs_prebuilt_wilcoxon_analysis.py
 
 If the output Excel file is already open, close it before running the script again.
 
-## Revised physician-blinded test analysis
+## Analyses used in the revised manuscript
 
-For the revised Table 3, use linear GEE with patient clustering:
+| Manuscript component | Script |
+| --- | --- |
+| Geometric metrics: paired Wilcoxon comparisons | `onsite_vs_prebuilt_wilcoxon_analysis.py` |
+| Table 3: acceptance rates and GEE comparisons | `physician blinded test/gee_analysis_package/gee_acceptance_analysis.py` |
+| Inter-observer agreement and unanimous acceptance | `physician blinded test/kappa_workbook_package/kappa_analysis.py` |
+| Agreement analysis workbook | `physician blinded test/kappa_workbook_package/make_kappa_workbook.py` |
+| S2 Table in the original manuscript format | `physician blinded test/kappa_workbook_package/update_s2_table.py` |
+| Agreement figure (Figure 3) | `physician blinded test/kappa_workbook_package/draw_kappa_figure.py` |
+
+### Table 3
+
+From the repository root, supply the individual ratings in S1 Table:
 
 ```sh
 python "physician blinded test/gee_analysis_package/gee_acceptance_analysis.py" --input "01-S1_Table.xlsx" --output-dir gee_results
 ```
 
-This replaces the historical patient-level McNemar analysis. Each sub-question
-retains 90 paired patient-observer assessments from 30 patients, with three
-observers rating both models. No observer responses are collapsed into a
-patient-level acceptance classification. See the GEE package README for
-Mancl–DeRouen covariance, t(26) inference and Holm adjustment over 17 comparisons.
-The Wilcoxon analysis of geometric metrics above is unchanged.
+The analysis uses Gaussian identity-link GEE with patient clustering, observer
+fixed effects, Mancl–DeRouen covariance, t(26) inference, and Holm adjustment
+across 17 sub-questions. See the package README for the analysis specification.
 
-For inter-observer agreement and S2 Table:
+### Agreement, S2 Table and Figure 3
+
+Place the S1 raw-data workbook and S2 manuscript template in
+`physician blinded test/kappa_workbook_package`, then run from that directory:
 
 ```sh
-python "physician blinded test/kappa_workbook_package/kappa_analysis.py" --input "01-S1_Table.xlsx" --output agreement_results.json
-python "physician blinded test/kappa_workbook_package/update_s2_table.py" --results agreement_results.json --template "01-S2_Table.xlsx" --output "S2_Table_corrected.xlsx"
+python kappa_analysis.py --input "01-S1_Table.xlsx"
+python make_kappa_workbook.py
+python update_s2_table.py --results kappa_analysis_results.json --template "01-S2_Table.xlsx" --output "S2_Table_corrected.xlsx"
+python draw_kappa_figure.py
 ```
 
+Run the analysis first so the workbook and figure use the newly computed JSON.
 Unanimous acceptance is the proportion of 30 patients accepted by all three
-observers, not the proportion of 90 individual ratings accepted. Both fields
-are retained separately in the analysis output. The template updater preserves
-the supplied supplementary table's formatting. Figure 3's original unanimous
-acceptance values were already correct; its visual design is unchanged.
-Patient raw data are supplied separately with the manuscript, not uploaded by
-these scripts. `validation/` contains aggregate verification results only.
+observers, distinct from overall acceptance among 90 individual ratings.
+The S2 updater preserves the supplied template formatting; the figure script
+retains its existing rendering and layout.
+
+Individual physician ratings and manuscript templates are supplied separately
+with the manuscript. Generated outputs are not tracked. The anonymized geometric
+metric CSV inputs remain included for reproducibility.
