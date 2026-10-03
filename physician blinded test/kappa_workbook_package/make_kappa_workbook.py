@@ -92,7 +92,7 @@ def main():
             pct(model["rater_acceptance_rate"]["DR"]),
         ])
     headers = [
-        "Model", "Patients", "Items", "Fleiss kappa", "CI low", "CI high",
+        "Model", "Patients", "Patient-question combinations", "Fleiss kappa", "CI low", "CI high",
         "Mean pairwise kappa", "CI low", "CI high", "Observed agreement",
         "PABAK", "3-rater complete agreement", "RO acceptance", "MP acceptance", "DR acceptance",
     ]
@@ -169,7 +169,7 @@ def main():
             r4(q["Fleiss kappa"]),
             pct(q["Observed agreement"]),
             r4(q["PABAK"]),
-            pct(q["Acceptance all ratings"]),
+            pct(q["Unanimous acceptance"]),
             r4(q["RO-MP kappa"]),
             r4(q["RO-DR kappa"]),
             r4(q["MP-DR kappa"]),
@@ -178,7 +178,7 @@ def main():
         ws3,
         1,
         1,
-        ["Model", "Question", "N", "Fleiss kappa", "Observed agreement", "PABAK", "Acceptance all ratings", "RO-MP", "RO-DR", "MP-DR"],
+        ["Model", "Question", "N", "Fleiss kappa", "Observed agreement", "PABAK", "Unanimous acceptance", "RO-MP", "RO-DR", "MP-DR"],
         q_rows,
     )
 
@@ -187,6 +187,7 @@ def main():
     notes = [
         ["Interpretation", "Kappa is chance-corrected agreement. Common descriptive bands: <0 none/slight, 0.21-0.40 fair, 0.41-0.60 moderate, 0.61-0.80 substantial, >0.80 almost perfect."],
         ["Unit of analysis", "Each patient-question judgment was treated as one binary item. There are 30 patients and 17 questions per model, so N=510 items per model."],
+        ["Unanimous acceptance", "Patients accepted by all three observers / 30 for each sub-question; not individual positive ratings / 90."],
         ["Fleiss kappa", "Used for overall agreement among RO, MP, and DR."],
         ["Cohen kappa", "Used for each rater pair: RO-MP, RO-DR, MP-DR."],
         ["PABAK", "Prevalence-adjusted bias-adjusted kappa, calculated as 2 x observed agreement - 1."],

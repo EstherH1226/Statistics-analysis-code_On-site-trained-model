@@ -1,0 +1,103 @@
+Sub-question,Model,Observer,n,N,Acceptance (%)
+Q3-1,Pre-built model,RO,3,30,10.0
+Q3-1,Pre-built model,MP,6,30,20.0
+Q3-1,Pre-built model,DR,5,30,16.666666666666664
+Q3-1,On-site trained model,RO,26,30,86.66666666666667
+Q3-1,On-site trained model,MP,29,30,96.66666666666667
+Q3-1,On-site trained model,DR,25,30,83.33333333333334
+Q3-2,Pre-built model,RO,5,30,16.666666666666664
+Q3-2,Pre-built model,MP,1,30,3.3333333333333335
+Q3-2,Pre-built model,DR,2,30,6.666666666666667
+Q3-2,On-site trained model,RO,24,30,80.0
+Q3-2,On-site trained model,MP,21,30,70.0
+Q3-2,On-site trained model,DR,17,30,56.666666666666664
+Q3-3,Pre-built model,RO,2,30,6.666666666666667
+Q3-3,Pre-built model,MP,14,30,46.666666666666664
+Q3-3,Pre-built model,DR,11,30,36.666666666666664
+Q3-3,On-site trained model,RO,17,30,56.666666666666664
+Q3-3,On-site trained model,MP,28,30,93.33333333333333
+Q3-3,On-site trained model,DR,27,30,90.0
+Q3-4,Pre-built model,RO,1,30,3.3333333333333335
+Q3-4,Pre-built model,MP,9,30,30.0
+Q3-4,Pre-built model,DR,7,30,23.333333333333332
+Q3-4,On-site trained model,RO,22,30,73.33333333333333
+Q3-4,On-site trained model,MP,21,30,70.0
+Q3-4,On-site trained model,DR,23,30,76.66666666666667
+Q3-5,Pre-built model,RO,3,30,10.0
+Q3-5,Pre-built model,MP,8,30,26.666666666666668
+Q3-5,Pre-built model,DR,9,30,30.0
+Q3-5,On-site trained model,RO,28,30,93.33333333333333
+Q3-5,On-site trained model,MP,15,30,50.0
+Q3-5,On-site trained model,DR,19,30,63.33333333333333
+Q4-1,Pre-built model,RO,18,30,60.0
+Q4-1,Pre-built model,MP,24,30,80.0
+Q4-1,Pre-built model,DR,17,30,56.666666666666664
+Q4-1,On-site trained model,RO,30,30,100.0
+Q4-1,On-site trained model,MP,29,30,96.66666666666667
+Q4-1,On-site trained model,DR,28,30,93.33333333333333
+Q4-2,Pre-built model,RO,18,30,60.0
+Q4-2,Pre-built model,MP,22,30,73.33333333333333
+Q4-2,Pre-built model,DR,18,30,60.0
+Q4-2,On-site trained model,RO,25,30,83.33333333333334
+Q4-2,On-site trained model,MP,28,30,93.33333333333333
+Q4-2,On-site trained model,DR,23,30,76.66666666666667
+Q4-3,Pre-built model,RO,5,30,16.666666666666664
+Q4-3,Pre-built model,MP,8,30,26.666666666666668
+Q4-3,Pre-built model,DR,11,30,36.666666666666664
+Q4-3,On-site trained model,RO,18,30,60.0
+Q4-3,On-site trained model,MP,16,30,53.333333333333336
+Q4-3,On-site trained model,DR,23,30,76.66666666666667
+Q4-4,Pre-built model,RO,25,30,83.33333333333334
+Q4-4,Pre-built model,MP,19,30,63.33333333333333
+Q4-4,Pre-built model,DR,11,30,36.666666666666664
+Q4-4,On-site trained model,RO,29,30,96.66666666666667
+Q4-4,On-site trained model,MP,25,30,83.33333333333334
+Q4-4,On-site trained model,DR,23,30,76.66666666666667
+Q5-1,Pre-built model,RO,4,30,13.333333333333334
+Q5-1,Pre-built model,MP,9,30,30.0
+Q5-1,Pre-built model,DR,3,30,10.0
+Q5-1,On-site trained model,RO,29,30,96.66666666666667
+Q5-1,On-site trained model,MP,30,30,100.0
+Q5-1,On-site trained model,DR,26,30,86.66666666666667
+Q5-2,Pre-built model,RO,4,30,13.333333333333334
+Q5-2,Pre-built model,MP,6,30,20.0
+Q5-2,Pre-built model,DR,5,30,16.666666666666664
+Q5-2,On-site trained model,RO,27,30,90.0
+Q5-2,On-site trained model,MP,29,30,96.66666666666667
+Q5-2,On-site trained model,DR,21,30,70.0
+Q5-3,Pre-built model,RO,5,30,16.666666666666664
+Q5-3,Pre-built model,MP,9,30,30.0
+Q5-3,Pre-built model,DR,4,30,13.333333333333334
+Q5-3,On-site trained model,RO,28,30,93.33333333333333
+Q5-3,On-site trained model,MP,30,30,100.0
+Q5-3,On-site trained model,DR,20,30,66.66666666666666
+Q5-4,Pre-built model,RO,3,30,10.0
+Q5-4,Pre-built model,MP,7,30,23.333333333333332
+Q5-4,Pre-built model,DR,3,30,10.0
+Q5-4,On-site trained model,RO,18,30,60.0
+Q5-4,On-site trained model,MP,21,30,70.0
+Q5-4,On-site trained model,DR,17,30,56.666666666666664
+Q6-1,Pre-built model,RO,30,30,100.0
+Q6-1,Pre-built model,MP,29,30,96.66666666666667
+Q6-1,Pre-built model,DR,28,30,93.33333333333333
+Q6-1,On-site trained model,RO,30,30,100.0
+Q6-1,On-site trained model,MP,29,30,96.66666666666667
+Q6-1,On-site trained model,DR,29,30,96.66666666666667
+Q6-2,Pre-built model,RO,6,30,20.0
+Q6-2,Pre-built model,MP,18,30,60.0
+Q6-2,Pre-built model,DR,14,30,46.666666666666664
+Q6-2,On-site trained model,RO,26,30,86.66666666666667
+Q6-2,On-site trained model,MP,28,30,93.33333333333333
+Q6-2,On-site trained model,DR,29,30,96.66666666666667
+Q6-3,Pre-built model,RO,30,30,100.0
+Q6-3,Pre-built model,MP,29,30,96.66666666666667
+Q6-3,Pre-built model,DR,22,30,73.33333333333333
+Q6-3,On-site trained model,RO,29,30,96.66666666666667
+Q6-3,On-site trained model,MP,29,30,96.66666666666667
+Q6-3,On-site trained model,DR,29,30,96.66666666666667
+Q6-4,Pre-built model,RO,29,30,96.66666666666667
+Q6-4,Pre-built model,MP,29,30,96.66666666666667
+Q6-4,Pre-built model,DR,11,30,36.666666666666664
+Q6-4,On-site trained model,RO,30,30,100.0
+Q6-4,On-site trained model,MP,30,30,100.0
+Q6-4,On-site trained model,DR,28,30,93.33333333333333

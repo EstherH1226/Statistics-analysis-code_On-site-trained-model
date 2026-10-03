@@ -63,45 +63,32 @@ python onsite_vs_prebuilt_wilcoxon_analysis.py
 
 If the output Excel file is already open, close it before running the script again.
 
-## Additional Scripts
+## Revised physician-blinded test analysis
 
-Other included scripts support related statistical analyses and figure generation:
+For the revised Table 3, use linear GEE with patient clustering:
 
-- `physician blinded test/kappa_workbook_package/kappa_analysis.py`
-- `physician blinded test/kappa_workbook_package/make_kappa_workbook.py`
-- `physician blinded test/kappa_workbook_package/draw_kappa_figure.py`
-- `physician blinded test/mcnemar_analysis_package/mcnemar_patient_level_analysis.py`
-
-The kappa workbook includes PABAK, calculated as `2 x observed agreement - 1`.
-
-These scripts are configured to use the raw Excel input file inside each package folder:
-
-```text
-physician blinded test/kappa_workbook_package/Raw data_McNemar's test.xlsx
-physician blinded test/mcnemar_analysis_package/Raw data_McNemar's test.xlsx
+```sh
+python "physician blinded test/gee_analysis_package/gee_acceptance_analysis.py" --input "01-S1_Table.xlsx" --output-dir gee_results
 ```
 
-The physician blinded test folder may also contain generated result files:
+This replaces the historical patient-level McNemar analysis. Each sub-question
+retains 90 paired patient-observer assessments from 30 patients, with three
+observers rating both models. No observer responses are collapsed into a
+patient-level acceptance classification. See the GEE package README for
+Mancl–DeRouen covariance, t(26) inference and Holm adjustment over 17 comparisons.
+The Wilcoxon analysis of geometric metrics above is unchanged.
 
-```text
-McNemar_patient_level_results.csv
-McNemar_subquestion_patient_level_results.csv
-Patient_level_subquestion_scores.csv
-Patient_level_total_scores.csv
-kappa_analysis_results.json
-kappa_analysis_results.xlsx
+For inter-observer agreement and S2 Table:
+
+```sh
+python "physician blinded test/kappa_workbook_package/kappa_analysis.py" --input "01-S1_Table.xlsx" --output agreement_results.json
+python "physician blinded test/kappa_workbook_package/update_s2_table.py" --results agreement_results.json --template "01-S2_Table.xlsx" --output "S2_Table_corrected.xlsx"
 ```
 
-These physician blinded test result/data files are excluded from Git by default because they may contain patient-level identifiers.
-
-The packaged folders can be run independently:
-
-```powershell
-cd "physician blinded test\kappa_workbook_package"
-python kappa_analysis.py
-python make_kappa_workbook.py
-python draw_kappa_figure.py
-
-cd "..\mcnemar_analysis_package"
-python mcnemar_patient_level_analysis.py
-```
+Unanimous acceptance is the proportion of 30 patients accepted by all three
+observers, not the proportion of 90 individual ratings accepted. Both fields
+are retained separately in the analysis output. The template updater preserves
+the supplied supplementary table's formatting. Figure 3's original unanimous
+acceptance values were already correct; its visual design is unchanged.
+Patient raw data are supplied separately with the manuscript, not uploaded by
+these scripts. `validation/` contains aggregate verification results only.

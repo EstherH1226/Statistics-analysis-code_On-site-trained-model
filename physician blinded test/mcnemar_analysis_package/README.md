@@ -1,23 +1,13 @@
-# McNemar Patient-Level Analysis Package
+# Replaced by the GEE acceptance analysis
 
-This folder contains the files needed to run the McNemar and Wilcoxon patient-level analyses for the physician blinded test.
+The historical McNemar analysis aggregated observer responses within each
+patient and used an any-observer-positive endpoint. It is not used in the
+revised manuscript. Its source remains available in Git history.
 
-## Files
+The old filename now forwards to the current GEE implementation:
 
-- `Raw data_McNemar’s test.xlsx`: input data
-- `mcnemar_patient_level_analysis.py`: analysis script
-
-## Run
-
-```powershell
-python mcnemar_patient_level_analysis.py
+```sh
+python mcnemar_patient_level_analysis.py --input "01-S1_Table.xlsx" --output-dir gee_results
 ```
 
-## Outputs
-
-- `McNemar_patient_level_results.csv`
-- `McNemar_subquestion_patient_level_results.csv`
-- `Patient_level_subquestion_scores.csv`
-- `Patient_level_total_scores.csv`
-
-The McNemar test uses patient-level binary correctness (`score > 0`). The Wilcoxon signed-rank test uses patient-level summed score differences.
+See `../gee_analysis_package/README.md` for methods, outputs and validation.
